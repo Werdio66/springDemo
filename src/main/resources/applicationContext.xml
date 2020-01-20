@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+    <!--    TX注解解析器   -->
+<!--    <tx:annotation-driven transaction-manager="txManager"/>-->
+    <!-- 整合mybatis和spring-->
+    <!-- 连接池 -->
+    <context:property-placeholder location="classpath:db.properties" system-properties-mode="NEVER"/>
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <context:annotation-config/>
+    <!-- 导入spring的配置文件 -->
+    <import resource="classpath:applicationContext.xml"/>
+    <!-- IoC注解解析器 -->
+    <context:component-scan base-package="com._520.spring"/>
+    <!-- mvc注解解析器 -->
+    <mvc:annotation-driven/>
+    <!-- 静态资源访问 -->
+    <mvc:default-servlet-handler/>
+</beans>
